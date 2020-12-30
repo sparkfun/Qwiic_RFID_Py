@@ -49,3 +49,75 @@ New to qwiic? Take a look at the entire [SparkFun qwiic ecosystem](https://www.s
 
 """
 #-----------------------------------------------------------------------------
+
+import qwiic_i2c
+
+# Define the device name and I2C addresses. These are set in teh class definition
+# as class variables, making them available without having to create a class instance.
+# This allows higher level logic to rapidly create an index of qwiic devices at
+# runtime.
+#
+# The name of this device
+_DEFAULT_NAME = "Qwiic RFID"
+
+# Some devices have multiple available addresses - this is a list of these addresses.
+# NOTE: The first address in this list is considered the default I2C address for the
+# device.
+_AVAILABLE_I2C_ADDRESS = [0x7D, 0x7C]
+
+# QUESTION: what do you do if the i2c address is software configurable?!
+
+# define the class that enxapsulates the device being created. All information associated with this
+# device is enxapsulated by this class. The device class should be the only value exported
+# from this module.
+
+class QwiicRFID(object):
+    """
+    QwiicRFID
+
+        :param address: The I2C address to use for the device.
+                        If not provied, the default address is  used.
+        :param i2c_driver: An existing i2c driver object. If not provided
+                        a driver object is created.
+        :return: The RFID device object.
+        :rtype: Object
+    """
+    # Constructor
+    device_name = _DEFAULT_NAME
+    available_addresses = _AVAILABLE_I2C_ADDRESS
+
+    # Global variables
+    ALTERNATE_ADDR = 0x7C
+    ADDRESS_LOCATION = 0xC7
+
+    TAG_AND_TIME_REQUEST = 10
+    MAX_TAG_STORAGE = 20
+    BYTES_IN_BUFFER = 4
+
+    # Constructor
+    def __init__(self, address=None, i2c_driver=None):
+        
+        # Did the user specify an I2C address?
+        self.address = address if address != None else self.available_addresses[0]
+
+        # Load the I2C driver if one isn't provided
+        if i2c_driver == None:
+            self._i2c = qwiic_i2c.getI2CDriver()
+            if self._i2c == None:
+                print("Unable to load I2C driver for this platform.")
+                return
+        else:
+            self._i2c = i2c_driver
+
+    # ------------------------------------
+    # isConnected()
+    #
+    # Is an actual board connected to our system?
+    def isConnected(self):
+        """
+        Determine if a Qwiic RFID device is connected to the system.
+
+            :return: True if the device is connected, otherwise False.
+            :rtype: bool
+        """
+        return qwiic_i2c.isDeviceConnected(self.address)
