@@ -51,6 +51,7 @@ New to qwiic? Take a look at the entire [SparkFun qwiic ecosystem](https://www.s
 #-----------------------------------------------------------------------------
 
 import qwiic_i2c
+import time
 
 # Define the device name and I2C addresses. These are set in teh class definition
 # as class variables, making them available without having to create a class instance.
@@ -94,6 +95,15 @@ class QwiicRFID(object):
     MAX_TAG_STORAGE = 20
     BYTES_IN_BUFFER = 4
 
+    # Global struct
+    # QUESTION: not really sure how to do this. Can you have a class within a class?
+    class rfidData:
+        tag = ""
+        time = 0
+
+    _libRfid = rfidData()
+    _libRfidArray[self.MAX_TAG_STORAGE]
+
     # Constructor
     def __init__(self, address=None, i2c_driver=None):
         
@@ -121,3 +131,191 @@ class QwiicRFID(object):
             :rtype: bool
         """
         return qwiic_i2c.isDeviceConnected(self.address)
+
+    # -------------------------------------
+    # begin()
+    #
+    # Initialize the system/validate the board.
+    def begin(self):
+        """
+        Initialize the operation of the Qwiic GPIO
+        
+            :return: Returns true if the initialization was successful, otherwise False.
+            :rtype: bool
+        """
+        return self.isConnected()
+
+    # --------------------------------------
+    # getTag()
+    #
+    # This function gets the RFID tag from the Qwiic RFID Reader. If there is not
+    # a tag then it will return an empty string. When the function is called the tag
+    # is retrieved but saved to a global struct variable set within the _readTagTime
+    # function. The tag is saved to a local variable, wiped from the global variable, and
+    # local variable is returned. This allows me to get both the tag and the
+    # associated time the tag was scanned at the same time, while keeping the 
+    # function simple.
+    def getTag(self):
+        """
+        Gets the current RFID tag
+
+            :return: Returns the RFID tag
+            :rtype: string
+        """
+        # Call the read command that will fill the global struct variable: rfidData
+        _readTagTime(self.TAG_AND_TIME_REQUEST)
+
+        tempTag = self._libRfid.tag  # Assign the tag to our local variable
+        self._libRfid.tag = ""   # Clear the global variable
+        return tempTag  # Return the local variable
+
+    # --------------------------------------
+    # getReqTime()
+    # 
+    # This funtion gets the time in seconds of the latest RFID tag was scanned from the Qwiic
+    # RFID reader. If there is no tag then the time that is returned will be zero.
+    # The information is received in the call to getTag() above, there is no time
+    # without the variable and stored in the data member time of the struct rfidData.
+    def getReqTime(self):
+        """
+        Gets the time when when RFID tag was last scanned
+
+            :return: Returns time in seconds
+            :rtype: int
+        """
+        # Global struct variable is loaded from getTag function. There is no time
+        # without a tag scan.
+        tempTime = self._libRfid.time    # Assign the time to the local variable
+        self._libRfid.time = 0   # Clear the global variable
+        return tempTime/1000    # Return the local variable in seconds
+
+    # --------------------------------------------
+    # getPrecReqTime()
+    #
+    # This function gets the precise time in seconds of the latest RFID tag was scanned from the Qwiic 
+    # RFID reader. If there is no tag then the time that is returned will be zero.
+    # The information is received in the call to getTag() above, there is no time
+    # without the variable and stored in the data member time of the struct rfidData.
+    def getPrecReqTime(self):
+        """
+        Gets the time when the RFID tag was last scanned
+
+            :return: Returns time in seconds
+            :rtype: int
+        """
+        # Global struct variable is loaded from getTag function. There is no time
+        # without a tag scan.
+        tempTime = float(self._libRfid.time)/1000   # Assign the time to the local variable
+        self._libRfid.time = 0   # Clear the global variable
+        return tempTime # Return the local variable in seconds
+    
+    # ---------------------------------------------
+    # clearTags()
+    #
+    # This function clears the buffer from the Qwiic RFID reader by reading them
+    # but not storing them.
+    def clearTags(self):
+        """
+        Reads and clears the tags from the buffer
+
+            Void: does not return anything
+        """
+        _readAllTagsTimes(self.MAX_TAG_STORAGE)
+
+    # --------------------------------------------
+    # getAllTags(tagArray[MAX_TAG_STORAGE])
+    #
+    # This function gets all the available tags on the Qwiic RFID reader's buffer.
+    # The buffer on the Qwiic RFID holds 20 tags and their scan time. Not knowing
+    # how many are available until the i2c buffer is read, the parameter is a full
+    # 20 element array.
+    def getAllTags(self, tagArray[self.MAX_TAG_STORAGE]):
+        """
+        Gets all the tags in the buffer
+
+            :param tagArray: list of upto 20 RFID tag numbers
+            Void: does not return anything
+        """
+        # Load up the global struct variables
+        _readAllTagsTimes(self.MAX_TAG_STORAGE)
+
+        for i in range(0, self.MAX_TAG_STORAGE):
+            tagArray[i] = self._libRfidArray[i].tag  # Load up passed array with tag
+            self._libRfidArray[i].tag = ""   # Clear global variable
+
+    # ---------------------------------------------
+    # getAllPrecTimes(timeArray[MAX_TAG_STORAGE])
+    # 
+    # This function gets all the available precise scan times associated with the scanned RFID tags.
+    # The buffer on the Qwiic RFID holds 20 tags and their scan time. Not knowing
+    # how many are available until the I2C buffer is read, the parameter is a full 20 element
+    # array.
+    # A note on the time: the time is not the time of the day when the tage was scanned
+    # but actually the time between when the tag was scanned and when it was read from the I2C bus.
+    def getAllPrecTimes(self, timeArray[self.MAX_TAG_STORAGE]):
+        """
+        Gets all times in the buffer
+
+            :param timeArray: list of upto 20 times the RFID tag was read from the I2C bus
+            Void: does not return anything
+        """
+        for i in range(0, self.MAX_TAG_STORAGE):
+            timeArray[i] = self._libRfidArray[i].time    # Load up passed array with time in seconds
+            timeArray[i] = timeArray[i]/1000
+            self._libRfidArray[i].time = 0   # Clear global variable
+
+    # ----------------------------------------------
+    # changeAddress(newAddress)
+    #
+    # This function changes the I2C address of the Qwiic RFID. The address
+    # is written to the memory location in EEPROM that determines its address.
+    def changeAddress(self, newAddress):
+        """
+        Changes the I2C address of the Qwiic RFID reader
+
+            :param newAddress: the new address to set the RFID reader to
+            :rtype: bool
+        """
+        if newAddress < 0x07 or newAddress > 0x78:
+            return false
+        
+        self._i2c.writeByte(self.address, self.ADDRESS_LOCATION, newAddress)
+
+    # ------------------------------------------------
+    # _readTagTime(_numofReads)
+    # 
+    # This function handles the I2C transaction to get the RFID tag and 
+    # time from the Qwiic RFID reader. What comes in from the RFID reader is a 
+    # number that was converted from a string to its direct numerical
+    # representation which is then converted back to its original state. The tag
+    # and the time is saves to the global rfidData struct.
+    def _readTagTime(self, _numofReads):
+        """
+        Handles the I2C transaction to get the RFID tag and time
+
+            :param _numofReads: int number of bytes to read
+            Void: returns nothing
+        """
+        _tempTag = ""  
+        _tempTime = 0
+
+        # What is read from the buffer is immediately converted to a string and 
+        # concatenated onto the temporary variable.
+        _tempTag = String(self._i2c.readBlock(self.address, something, _numofReads))
+        # Question: what do you do if there's no register to read from?
+
+        # The tag is copied to the tag data member of the rfidData struct
+        self._libRfid.tag = _tempTag
+
+        # Bring in the time
+        if self._libRfid.tag == "000000":    # If the tag is blank
+
+            # Time is zero if there is not a tag
+            _tempTime = 0
+
+            # Clear the buffer of the four bytes that would hold a time if there 
+            # was a time to read
+            self._i2c.readBlock(self.address, something, 4)
+        
+        else:
+            
