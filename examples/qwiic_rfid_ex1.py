@@ -62,17 +62,18 @@ def runExample():
     
     myRFID.begin()
     print("\nReady to scan some tags!")
-
+    
     while 1:
-        val = input()
+        val = input("\nEnter 1 to get tag ID and scan time: ")
 
-        if val == "1":
+        if int(val) == 1:
+            print("\nGetting your tag ID...")
             tag = myRFID.getTag()
             print("\nTag ID: " + tag)
 
             scanTime = myRFID.getPrecReqTime()
             # If this time is too precise, try:
-            # time = myRFID.getReqTime()
+            # scanTime = myRFID.getReqTime()
             print("\nScan Time: " + str(scanTime))
 
 if __name__ == '__main__':
