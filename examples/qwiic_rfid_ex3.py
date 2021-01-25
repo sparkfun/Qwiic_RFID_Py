@@ -94,7 +94,7 @@ def runExample():
 
         else: 
             for i in range(0, len(addressesOnBus)):
-                print("\I2C device found at address: 0x" + hex(addressesOnBus[i]))
+                print("\nI2C device found at address: 0x" + hex(addressesOnBus[i]))
 
         # Delay for 5 seconds
         time.sleep(5)
@@ -103,5 +103,5 @@ if __name__ == '__main__':
     try:
         runExample()
     except (KeyboardInterrupt, SystemExit) as exErr:
-        print("\nEnding Example 1")
+        print("\nEnding Example 3")
         sys.exit(0)
