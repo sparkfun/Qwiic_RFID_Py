@@ -77,7 +77,7 @@ def runExample():
             print("\nAddress successfully changed!")
             # Check that the RFID Reader acknowledges on new address
             if myRFID.isConnected() == False:
-                print("\nThe Qwiic RFID Reader isn't connected to the system. Please chack your connection", file=sys.stderr)
+                print("\nThe Qwiic RFID Reader isn't connected to the system. Please check your connection", file=sys.stderr)
 
         else:
             print("\nAddress change was not successful")
