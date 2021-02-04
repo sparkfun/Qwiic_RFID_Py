@@ -308,18 +308,15 @@ class QwiicRFID(object):
             :param _numofReads: int number of bytes to read
             Void: returns nothing
         """
-        #print("\nIn _readTagTime")
         _tempTagStr = ""  
         _tempTime = 0
 
         # What is read from the buffer is immediately converted to a string and 
         # concatenated onto the temporary variable.
         _tempTagList = self._i2c.readBlock(self.address, 0, 10)
-        #print(_tempTagList)
         
         for i in range(0, 6):
             _tempTagStr += str(_tempTagList[i])
-        #print(_tempTagStr)
         
         # The tag is copied to the tag data member of the rfidData struct
         self.RFID_TAG = _tempTagStr
@@ -332,7 +329,6 @@ class QwiicRFID(object):
         
         else:
             _tempTime = int(_tempTagList[6]) * 16 ** (6) + int(_tempTagList[7]) * 16 ** (4) + int(_tempTagList[8]) * 16 ** (2) + int(_tempTagList[9])
-            #print(_tempTime)
             
         # Time is copied to the time data member of the rfidData struct
         self.RFID_TIME = _tempTime   # Time in milliseconds
@@ -352,9 +348,7 @@ class QwiicRFID(object):
 
             :param _numofReads: int number of bytes to read
             Void: returns nothing
-        """
-        print("\nIn _readAllTagsTimes")
-        
+        """        
         for i in range(0, _numofReads):
             _tempTagStr = ""
             _tempTime = 0
@@ -362,15 +356,12 @@ class QwiicRFID(object):
             # What is read from the buffer is immediately converted to a string and 
             # concatenated onto the temporary variable.
             _tempTagList = self._i2c.readBlock(self.address, 0, 10)
-            #print(_tempTagList)
         
             for j in range(0, 6):
                 _tempTagStr += str(_tempTagList[j])
-            #print(_tempTagStr)
         
             # The tag is copied to the tag data member of the rfidData class
             self.TAG_ARRAY[i] = _tempTagStr
-            #print(self.TAG_ARRAY)
             
             # Bring in the time but only if there is a tag
             if self.TAG_ARRAY[i] == "000000":    # Blank tag
@@ -380,10 +371,6 @@ class QwiicRFID(object):
             
             else:
                 _tempTime = int(_tempTagList[6]) * 16 ** (6) + int(_tempTagList[7]) * 16 ** (4) + int(_tempTagList[8]) * 16 ** (2) + int(_tempTagList[9])
-                #print(_tempTime)
             
             # Time is copied to the time data member of the rfidData struct
-            self.TIME_ARRAY[i] = _tempTime   # Convert to seconds
-            
-        print(self.TAG_ARRAY)
-            
+            self.TIME_ARRAY[i] = _tempTime   # Convert to seconds            
