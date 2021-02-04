@@ -52,7 +52,7 @@ setup(
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
     # http://packaging.python.org/en/latest/tutorial.html#version
-    version='0.0.1',
+    version='0.0.2',
 
     description='SparkFun Electronics Qwiic RFID Reader package',
     long_description='This is a python package for SparkFun\'s Qwiic RFID Reader (https://www.sparkfun.com/products/15191). \
