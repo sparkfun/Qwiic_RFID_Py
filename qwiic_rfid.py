@@ -135,7 +135,7 @@ class QwiicRFID(object):
         Determine if a Qwiic RFID device is connected to the system.
 
             :return: True if the device is connected, otherwise False.
-            :rtype: bool
+            :rtype: void
         """
         return qwiic_i2c.isDeviceConnected(self.address)
 
@@ -148,7 +148,7 @@ class QwiicRFID(object):
         Initialize the operation of the Qwiic GPIO
         
             :return: Returns true if the initialization was successful, otherwise False.
-            :rtype: bool
+            :rtype: void
         """
         return self.isConnected()
 
@@ -225,7 +225,7 @@ class QwiicRFID(object):
         """
         Reads and clears the tags from the buffer
 
-            Void: does not return anything
+            :rtype: void - does not return anything
         """
         self._readAllTagsTimes(self.MAX_TAG_STORAGE)
 
@@ -242,7 +242,7 @@ class QwiicRFID(object):
         Gets all the tags in the buffer
 
             :param tagArray: list of upto 20 RFID tag numbers
-            Void: does not return anything
+            :rtype: void - does not return anything
         """
         # Load up the global struct variables
         self._readAllTagsTimes(self.MAX_TAG_STORAGE)
@@ -267,7 +267,7 @@ class QwiicRFID(object):
         Gets all times in the buffer
 
             :param timeArray: list of upto 20 times the RFID tag was read from the I2C bus
-            Void: does not return anything
+            :rtype: void - does not return anything
         """
         for i in range(0, self.MAX_TAG_STORAGE):
             timeArray[i] = self.TIME_ARRAY[i]    # Load up passed array with time in seconds
@@ -306,7 +306,7 @@ class QwiicRFID(object):
         Handles the I2C transaction to get the RFID tag and time
 
             :param _numofReads: int number of bytes to read
-            Void: returns nothing
+            :rtype: void - returns nothing
         """
         _tempTagStr = ""  
         _tempTime = 0
@@ -347,7 +347,7 @@ class QwiicRFID(object):
         Populates an array of 20 RFID tags/times and drains available RFID buffer on the Reader.
 
             :param _numofReads: int number of bytes to read
-            Void: returns nothing
+            :rtype: void - returns nothing
         """        
         for i in range(0, _numofReads):
             _tempTagStr = ""
