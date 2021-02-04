@@ -57,31 +57,32 @@ import sys
 
 def runExample():
     
-    print("\n SparkFun Qwiic RFID Example 2\n")
+    print("\nSparkFun Qwiic RFID Example 2\n")
     myRFID = qwiic_rfid.QwiicRFID()
 
-    if myRFID.isConnected() == False:
+    if myRFID.begin() == False:
         print("The Qwiic RFID Reader isn't connected to the system. Please check your connection", \
             file=sys.stderr)
         return
 
-    myRFID.begin()
     print("\nReady to scan some tags!")
 
-    allTags = [None] * MAX_TAG_STORAGE
-    allTimes = [None] * MAX_TAG_STORAGE
+    allTags = [None] * myRFID.MAX_TAG_STORAGE
+    allTimes = [None] * myRFID.MAX_TAG_STORAGE
 
-    while 1:
-        val = input()
+    while True:
+        val = input("\nEnter 1 to get all ID's and scan times: ")
 
-        if val == "1":
+        if int(val) == 1:
             
             myRFID.getAllTags(allTags)
             myRFID.getAllPrecTimes(allTimes)
 
-            for i in range(0, MAX_TAG_STORAGE):
+            for i in range(0, myRFID.MAX_TAG_STORAGE):
                 print("\nRIFD Tag: " + allTags[i])
-                print("\nScan Time: " + allTimes[i])
+                print("\nScan Time: " + str(allTimes[i]))
+        
+        time.sleep(0.02)
 
 if __name__ == '__main__':
     try:

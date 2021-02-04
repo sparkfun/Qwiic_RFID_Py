@@ -56,14 +56,13 @@ def runExample():
     print("\nSparkFun Qwiic RFID Reader Example 1")
     myRFID = qwiic_rfid.QwiicRFID()
 
-    if myRFID.isConnected() == False:
+    if myRFID.begin() == False:
         print("\nThe Qwiic RFID Reader isn't connected to the system. Please check your connection", file=sys.stderr)
         return
     
-    myRFID.begin()
     print("\nReady to scan some tags!")
     
-    while 1:
+    while True:
         val = input("\nEnter 1 to get tag ID and scan time: ")
 
         if int(val) == 1:
@@ -75,6 +74,8 @@ def runExample():
             # If this time is too precise, try:
             # scanTime = myRFID.getReqTime()
             print("\nScan Time: " + str(scanTime))
+        
+        time.sleep(0.02)
 
 if __name__ == '__main__':
     try:
