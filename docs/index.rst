@@ -26,6 +26,7 @@ Table of Contents
 
    ex1
    ex2
+   ex3
 
 .. toctree::
    :caption: Other Links
