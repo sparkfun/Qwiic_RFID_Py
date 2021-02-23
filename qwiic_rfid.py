@@ -121,7 +121,7 @@ class Qwiic_RFID(object):
     # Is an actual board connected to our system?
     def is_connected(self):
         """
-        Determine if a Qwiic RFID device is connected to the system.
+            Determine if a Qwiic RFID device is connected to the system.
 
             :return: True if the device is connected, otherwise False.
             :rtype: void
@@ -134,7 +134,7 @@ class Qwiic_RFID(object):
     # Initialize the system/validate the board.
     def begin(self):
         """
-        Initialize the operation of the Qwiic GPIO
+            Initialize the operation of the Qwiic GPIO
         
             :return: Returns true if the initialization was successful, otherwise False.
             :rtype: void
@@ -153,7 +153,7 @@ class Qwiic_RFID(object):
     # function simple.
     def get_tag(self):
         """
-        Gets the current RFID tag
+            Gets the current RFID tag
 
             :return: Returns the RFID tag
             :rtype: string
@@ -173,7 +173,7 @@ class Qwiic_RFID(object):
     # The information is received in the call to get_tag() above.
     def get_req_time(self):
         """
-        Gets the time when when RFID tag was last scanned
+            Gets the time when when RFID tag was last scanned
 
             :return: Returns time in seconds
             :rtype: int
@@ -192,7 +192,7 @@ class Qwiic_RFID(object):
     # The information is received in the call to get_tag() above.
     def get_prec_req_time(self):
         """
-        Gets the time when the RFID tag was last scanned
+            Gets the time when the RFID tag was last scanned
 
             :return: Returns time in seconds
             :rtype: int
@@ -210,7 +210,7 @@ class Qwiic_RFID(object):
     # but not storing them.
     def clear_tags(self):
         """
-        Reads and clears the tags from the buffer
+            Reads and clears the tags from the buffer
 
             :rtype: void - does not return anything
         """
@@ -225,7 +225,7 @@ class Qwiic_RFID(object):
     # 20 element array.
     def get_all_tags(self, tag_array):
         """
-        Gets all the tags in the buffer
+            Gets all the tags in the buffer
 
             :param tag_array: list of upto 20 RFID tag numbers
             :rtype: void - does not return anything
@@ -249,7 +249,7 @@ class Qwiic_RFID(object):
     def get_all_prec_times(self, time_array):
     
         """
-        Gets all times in the buffer
+            Gets all times in the buffer
 
             :param time_array: list of upto 20 times the RFID tag was read from the I2C bus
             :rtype: void - does not return anything
@@ -266,7 +266,7 @@ class Qwiic_RFID(object):
     # is written to the memory location in EEPROM that determines its address.
     def change_address(self, new_address):
         """
-        Changes the I2C address of the Qwiic RFID reader
+            Changes the I2C address of the Qwiic RFID reader
 
             :param new_address: the new address to set the RFID reader to
             :rtype: bool
@@ -288,7 +288,7 @@ class Qwiic_RFID(object):
     # and the time is saves to the global variables.
     def _readTagTime(self):
         """
-        Handles the I2C transaction to get the RFID tag and time
+            Handles the I2C transaction to get the RFID tag and time
 
             :rtype: void - returns nothing
         """
@@ -328,7 +328,7 @@ class Qwiic_RFID(object):
     # converted back to its' original state.
     def _read_all_tags_times(self, _num_of_reads):
         """
-        Populates an array of 20 RFID tags/times and drains available RFID buffer on the Reader.
+            Populates an array of 20 RFID tags/times and drains available RFID buffer on the Reader.
 
             :param _num_of_reads: int number of bytes to read
             :rtype: void - returns nothing
