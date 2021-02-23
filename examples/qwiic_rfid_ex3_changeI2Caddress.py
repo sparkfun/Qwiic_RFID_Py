@@ -49,12 +49,12 @@ import qwiic_rfid
 import time
 import sys
 
-def runExample():
+def run_example():
 
     print("\nSparkFun Qwiic RFID Reader Example 3")
-    myRFID = qwiic_rfid.QwiicRFID(0x36)
+    my_RFID = qwiic_rfid.Qwiic_RFID(0x36)
 
-    if myRFID.begin() == False:
+    if my_RFID.begin() == False:
         print("\nThe Qwiic RFID Reader isn't connected to the system. Please check your connection", file=sys.stderr)
         return
 
@@ -64,19 +64,19 @@ def runExample():
     print("\nDon't use the 0x prefix. For instance if you wanted to")
     print("\nchange the address to 0x5B, you would type 5B and hit enter.")
 
-    newAddress = raw_input("\nNew Address: ")
-    newAddress = int(newAddress, 16)
+    new_address = raw_input("\nNew Address: ")
+    new_address = int(new_address, 16)
 
     # Check if the user entered a valid address
-    if newAddress > 0x08 and newAddress < 0x77:
+    if new_address > 0x08 and new_address < 0x77:
         print("\nCharacters received and new address valid!")
         print("\nAttempting to set RFID reader address...")
         
-        myRFID.changeAddress(newAddress)
+        my_RFID.change_address(new_address)
         print("\nAddress successfully changed!")
         # Check that the RFID Reader acknowledges on new address
         time.sleep(0.02)
-        if myRFID.begin() == False:
+        if my_RFID.begin() == False:
             print("\nThe Qwiic RFID Reader isn't connected to the system. Please check your connection", file=sys.stderr)
 
         else:
@@ -87,7 +87,7 @@ def runExample():
 
 if __name__ == '__main__':
     try:
-        runExample()
+        run_example()
     except (KeyboardInterrupt, SystemExit) as exErr:
         print("\nEnding Example 3")
         sys.exit(0)

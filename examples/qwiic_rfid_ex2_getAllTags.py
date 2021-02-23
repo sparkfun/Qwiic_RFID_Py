@@ -55,38 +55,38 @@ import qwiic_rfid
 import time
 import sys
 
-def runExample():
+def run_example():
     
     print("\nSparkFun Qwiic RFID Example 2\n")
-    myRFID = qwiic_rfid.QwiicRFID()
+    my_RFID = qwiic_rfid.Qwiic_RFID()
 
-    if myRFID.begin() == False:
+    if my_RFID.begin() == False:
         print("The Qwiic RFID Reader isn't connected to the system. Please check your connection", \
             file=sys.stderr)
         return
 
     print("\nReady to scan some tags!")
 
-    allTags = [None] * myRFID.MAX_TAG_STORAGE
-    allTimes = [None] * myRFID.MAX_TAG_STORAGE
+    all_tags = [None] * my_RFID.MAX_TAG_STORAGE
+    all_times = [None] * my_RFID.MAX_TAG_STORAGE
 
     while True:
         val = input("\nEnter 1 to get all ID's and scan times: ")
 
         if int(val) == 1:
             
-            myRFID.getAllTags(allTags)
-            myRFID.getAllPrecTimes(allTimes)
+            my_RFID.get_all_tags(all_tags)
+            my_RFID.get_all_prec_times(all_times)
 
-            for i in range(0, myRFID.MAX_TAG_STORAGE):
-                print("\nRIFD Tag: " + allTags[i])
-                print("\nScan Time: " + str(allTimes[i]))
+            for i in range(0, my_RFID.MAX_TAG_STORAGE):
+                print("\nRIFD Tag: " + all_tags[i])
+                print("\nScan Time: " + str(all_times[i]))
         
         time.sleep(0.02)
 
 if __name__ == '__main__':
     try:
-        runExample()
+        run_example()
     except (KeyboardInterrupt, SystemExit) as exErr:
         print("\nEnding Example 2")
         sys.exit(0)

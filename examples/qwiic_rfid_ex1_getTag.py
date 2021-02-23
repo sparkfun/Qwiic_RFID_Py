@@ -51,12 +51,12 @@ import qwiic_rfid
 import time
 import sys
 
-def runExample():
+def run_example():
 
     print("\nSparkFun Qwiic RFID Reader Example 1")
-    myRFID = qwiic_rfid.QwiicRFID()
+    my_RFID = qwiic_rfid.Qwiic_RFID()
 
-    if myRFID.begin() == False:
+    if my_RFID.begin() == False:
         print("\nThe Qwiic RFID Reader isn't connected to the system. Please check your connection", file=sys.stderr)
         return
     
@@ -67,19 +67,19 @@ def runExample():
 
         if int(val) == 1:
             print("\nGetting your tag ID...")
-            tag = myRFID.getTag()
+            tag = my_RFID.get_tag()
             print("\nTag ID: " + tag)
 
-            scanTime = myRFID.getPrecReqTime()
+            scan_time = my_RFID.get_prec_req_time()
             # If this time is too precise, try:
-            # scanTime = myRFID.getReqTime()
-            print("\nScan Time: " + str(scanTime))
+            # scan_time = my_RFID.get_req_time()
+            print("\nScan Time: " + str(scan_time))
         
         time.sleep(0.02)
 
 if __name__ == '__main__':
     try:
-        runExample()
+        run_example()
     except (KeyboardInterrupt, SystemExit) as exErr:
         print("\nEnding Example 1")
         sys.exit(0)
