@@ -1,7 +1,7 @@
 
 Example 1
 ---------------------------
-.. literalinclude:: ../examples/qwiic_ex1_getTag.py
-    :caption: examples/qwiic_ex1_getTag.py
+.. literalinclude:: ../examples/qwiic_rfid_ex1_getTag.py
+    :caption: examples/qwiic_rfid_ex1_getTag.py
     :linenos:
 
