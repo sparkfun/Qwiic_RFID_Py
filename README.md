@@ -43,7 +43,7 @@ New to qwiic? Take a look at the entire [SparkFun qwiic ecosystem](https://www.s
 
 Supported Platforms
 --------------------
-The qwiic Soil Moisture Sensor Python package current supports the following platforms:
+The Qwiic RFID Python package current supports the following platforms:
 * [Raspberry Pi](https://www.sparkfun.com/search/results?term=raspberry+pi)
 * [NVidia Jetson Nano](https://www.sparkfun.com/products/15297)
 * [Google Coral Development Board](https://www.sparkfun.com/products/15318)
@@ -55,7 +55,7 @@ This driver package depends on the qwiic I2C driver:
 
 Documentation
 -------------
-The SparkFun Qwiic Button module documentation is hosted at [ReadTheDocs](https://qwiic-rfid-py.readthedocs.io/en/latest/?)
+The SparkFun Qwiic RFID module documentation is hosted at [ReadTheDocs](https://qwiic-rfid-py.readthedocs.io/en/latest/?)
 
 Installation
 ---------------
