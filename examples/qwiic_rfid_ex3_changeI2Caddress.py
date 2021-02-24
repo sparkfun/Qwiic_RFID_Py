@@ -52,7 +52,7 @@ import sys
 def run_example():
 
     print("\nSparkFun Qwiic RFID Reader Example 3")
-    my_RFID = qwiic_rfid.Qwiic_RFID(0x36)
+    my_RFID = qwiic_rfid.Qwiic_RFID()
 
     if my_RFID.begin() == False:
         print("\nThe Qwiic RFID Reader isn't connected to the system. Please check your connection", file=sys.stderr)

@@ -159,7 +159,7 @@ class Qwiic_RFID(object):
             :rtype: string
         """
         # Call the read command that will fill the global struct variable: rfidData
-        self._read_tag_time(self.TAG_AND_TIME_REQUEST)
+        self._read_tag_time()
 
         temp_tag = self.RFID_TAG  # Assign the tag to our local variable
         self.RFID_TAG = None   # Clear the global variable
@@ -286,7 +286,7 @@ class Qwiic_RFID(object):
     # number that was converted from a string to its direct numerical
     # representation which is then converted back to its original state. The tag
     # and the time is saves to the global variables.
-    def _readTagTime(self):
+    def _read_tag_time(self):
         """
             Handles the I2C transaction to get the RFID tag and time
 
