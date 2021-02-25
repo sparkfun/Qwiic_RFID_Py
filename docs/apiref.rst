@@ -4,5 +4,5 @@ API Reference
 .. automodule:: qwiic_rfid
    :members:
 
-.. autoclass:: Qwiic_RFID
+.. autoclass:: QwiicRFID
 	:members:

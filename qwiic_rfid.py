@@ -72,9 +72,9 @@ _AVAILABLE_I2C_ADDRESS = [0x13, 0x14]
 # device is enxapsulated by this class. The device class should be the only value exported
 # from this module.
 
-class Qwiic_RFID(object):
+class QwiicRFID(object):
     """
-    Qwiic_RFID
+    QwiicRFID
 
         :param address: The I2C address to use for the device.
                         If not provied, the default address is  used.
