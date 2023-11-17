@@ -50,7 +50,6 @@
 # reads: getAllTimes() and getAllPrecTimes(), both return time in seconds but the
 # second option gives you a time with two decimal point precision (0.00)
 
-from __future__ import print_function
 import qwiic_rfid
 import time
 import sys
@@ -71,18 +70,20 @@ def run_example():
     all_times = [None] * my_RFID.MAX_TAG_STORAGE
 
     while True:
-        val = input("\nEnter 1 to get all ID's and scan times: ")
+        print("\nScan some tags, they will all be printed in 10 seconds!")
 
-        if int(val) == 1:
+        time.sleep(10)
             
-            my_RFID.get_all_tags(all_tags)
-            my_RFID.get_all_prec_times(all_times)
+        my_RFID.get_all_tags(all_tags)
+        my_RFID.get_all_prec_times(all_times)
 
-            for i in range(0, my_RFID.MAX_TAG_STORAGE):
-                print("\nRIFD Tag: " + all_tags[i])
-                print("\nScan Time: " + str(all_times[i]))
-        
-        time.sleep(0.02)
+        for i in range(0, my_RFID.MAX_TAG_STORAGE):
+            if all_tags[i] == "000000":
+                break
+            
+            print("\nScan " + str(i) + ":")
+            print("Tag ID: " + all_tags[i])
+            print("Scanned " + str(all_times[i]) + " seconds ago")
 
 if __name__ == '__main__':
     try:

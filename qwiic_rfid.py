@@ -51,7 +51,6 @@ New to qwiic? Take a look at the entire [SparkFun qwiic ecosystem](https://www.s
 #-----------------------------------------------------------------------------
 
 import qwiic_i2c
-import time
 
 # Define the device name and I2C addresses. These are set in teh class definition
 # as class variables, making them available without having to create a class instance.
@@ -272,7 +271,7 @@ class QwiicRFID(object):
             :rtype: bool
         """
         if new_address < 0x07 or new_address > 0x78:
-            return false
+            return False
         
         self._i2c.writeByte(self.address, self.ADDRESS_LOCATION, new_address)
         
