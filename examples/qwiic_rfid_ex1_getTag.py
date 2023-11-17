@@ -62,19 +62,21 @@ def run_example():
     print("\nReady to scan some tags!")
     
     while True:
-        val = input("\nEnter 1 to get tag ID and scan time: ")
-
-        if int(val) == 1:
-            print("\nGetting your tag ID...")
-            tag = my_RFID.get_tag()
-            print("\nTag ID: " + tag)
+        # Get latest tag ID
+        tag_id = my_RFID.get_tag()
+        
+        # Check whether ID is valid
+        if tag_id != "000000":
+            print("\n Tag scanned!")
+            print("Tag ID: " + tag_id)
 
             scan_time = my_RFID.get_prec_req_time()
             # If this time is too precise, try:
             # scan_time = my_RFID.get_req_time()
-            print("\nScan Time: " + str(scan_time))
+            print("Scanned " + str(scan_time) + " seconds ago")
         
-        time.sleep(0.02)
+        # Long-ish delay to not spam I2C bus, and to demonstrate the scan time
+        time.sleep(1)
 
 if __name__ == '__main__':
     try:
