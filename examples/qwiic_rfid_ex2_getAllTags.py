@@ -50,7 +50,6 @@
 # reads: getAllTimes() and getAllPrecTimes(), both return time in seconds but the
 # second option gives you a time with two decimal point precision (0.00)
 
-from __future__ import print_function
 import qwiic_rfid
 import time
 import sys

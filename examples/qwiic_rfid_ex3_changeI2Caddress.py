@@ -43,7 +43,6 @@
 # Reader to one of your choosing. There is a set range of available addresses from
 # 0x07 to 0x78, so make sure your chosen address falls within this range.
 
-from __future__ import print_function
 import qwiic_i2c
 import qwiic_rfid
 import time

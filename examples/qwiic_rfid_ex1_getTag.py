@@ -46,7 +46,6 @@
 # time between when the card was scanned and when you the user requested the RFID
 # tag from the Qwiic RFID Reader.
 
-from __future__ import print_function
 import qwiic_rfid
 import time
 import sys
