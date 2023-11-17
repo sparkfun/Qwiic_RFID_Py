@@ -51,7 +51,6 @@ New to qwiic? Take a look at the entire [SparkFun qwiic ecosystem](https://www.s
 #-----------------------------------------------------------------------------
 
 import qwiic_i2c
-import time
 
 # Define the device name and I2C addresses. These are set in teh class definition
 # as class variables, making them available without having to create a class instance.
