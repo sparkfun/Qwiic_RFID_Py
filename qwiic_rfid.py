@@ -271,7 +271,7 @@ class QwiicRFID(object):
             :rtype: bool
         """
         if new_address < 0x07 or new_address > 0x78:
-            return false
+            return False
         
         self._i2c.writeByte(self.address, self.ADDRESS_LOCATION, new_address)
         
