@@ -103,7 +103,10 @@ class QwiicRFID(object):
     def __init__(self, address=None, i2c_driver=None):
         
         # Did the user specify an I2C address?
-        self.address = address if address != None else self.available_addresses[0]
+        if address in self.available_addresses:
+            self.address = address
+        else:
+            self.address = self.available_addresses[0]
 
         # Load the I2C driver if one isn't provided
         if i2c_driver == None:
@@ -125,7 +128,7 @@ class QwiicRFID(object):
             :return: True if the device is connected, otherwise False.
             :rtype: void
         """
-        return qwiic_i2c.isDeviceConnected(self.address)
+        return self._i2c.isDeviceConnected(self.address)
 
     # -------------------------------------
     # begin()
