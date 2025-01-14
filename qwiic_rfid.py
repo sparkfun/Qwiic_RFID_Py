@@ -36,7 +36,7 @@
 # SOFTWARE.
 #==================================================================================
 
-"""
+"""!
 qwiic_rfid
 ============
 Python module for the Qwiic RFID Reader.
@@ -46,7 +46,6 @@ This python package is a port of the existing [SparkFun Qwiic RFID Arduino Libra
 This package can be used in conjunction with the overall [SparkFun qwiic Python Package](https://github.com/sparkfun/Qwiic_Py)
 
 New to qwiic? Take a look at the entire [SparkFun qwiic ecosystem](https://www.sparkfun.com/qwiic).
-
 """
 #-----------------------------------------------------------------------------
 
@@ -72,15 +71,15 @@ _AVAILABLE_I2C_ADDRESS = [0x13, 0x14]
 # from this module.
 
 class QwiicRFID(object):
-    """
+    """!
     QwiicRFID
 
-        :param address: The I2C address to use for the device.
+    @param address: The I2C address to use for the device.
                         If not provied, the default address is  used.
-        :param i2c_driver: An existing i2c driver object. If not provided
+    @param i2c_driver: An existing i2c driver object. If not provided
                         a driver object is created.
-        :return: The RFID device object.
-        :rtype: Object
+
+    @return **Object** The RFID device object.
     """
     # Constructor
     device_name = _DEFAULT_NAME
@@ -122,11 +121,10 @@ class QwiicRFID(object):
     #
     # Is an actual board connected to our system?
     def is_connected(self):
-        """
-            Determine if a Qwiic RFID device is connected to the system.
+        """!
+        Determine if a Qwiic RFID device is connected to the system.
 
-            :return: True if the device is connected, otherwise False.
-            :rtype: void
+        @return **void** True if the device is connected, otherwise False.
         """
         return self._i2c.isDeviceConnected(self.address)
 
@@ -135,11 +133,10 @@ class QwiicRFID(object):
     #
     # Initialize the system/validate the board.
     def begin(self):
-        """
-            Initialize the operation of the Qwiic GPIO
-        
-            :return: Returns true if the initialization was successful, otherwise False.
-            :rtype: void
+        """!
+        Initialize the operation of the Qwiic GPIO
+
+        @return **void** Returns true if the initialization was successful, otherwise False.
         """
         return self.is_connected()
 
@@ -154,11 +151,10 @@ class QwiicRFID(object):
     # associated time the tag was scanned at the same time, while keeping the 
     # function simple.
     def get_tag(self):
-        """
-            Gets the current RFID tag
+        """!
+        Gets the current RFID tag
 
-            :return: Returns the RFID tag
-            :rtype: string
+        @return **string** Returns the RFID tag
         """
         # Call the read command that will fill the global struct variable: rfidData
         self._read_tag_time()
@@ -174,11 +170,10 @@ class QwiicRFID(object):
     # RFID reader. If there is no tag then the time that is returned will be zero.
     # The information is received in the call to get_tag() above.
     def get_req_time(self):
-        """
-            Gets the time when when RFID tag was last scanned
+        """!
+        Gets the time when when RFID tag was last scanned
 
-            :return: Returns time in seconds
-            :rtype: int
+        @return **int** Returns time in seconds
         """
         # Global variable is loaded from get_tag function. 
         # There is no time without a tag scan.
@@ -193,11 +188,10 @@ class QwiicRFID(object):
     # RFID reader. If there is no tag then the time that is returned will be zero.
     # The information is received in the call to get_tag() above.
     def get_prec_req_time(self):
-        """
-            Gets the time when the RFID tag was last scanned
+        """!
+        Gets the time when the RFID tag was last scanned
 
-            :return: Returns time in seconds
-            :rtype: int
+        @return **int** Returns time in seconds
         """
         # Global variable is loaded from get_tag function. 
         # There is no time without a tag scan.
@@ -211,10 +205,8 @@ class QwiicRFID(object):
     # This function clears the buffer from the Qwiic RFID reader by reading them
     # but not storing them.
     def clear_tags(self):
-        """
-            Reads and clears the tags from the buffer
-
-            :rtype: void - does not return anything
+        """!
+        Reads and clears the tags from the buffer
         """
         self._read_all_tags_times(self.MAX_TAG_STORAGE)
 
@@ -226,11 +218,10 @@ class QwiicRFID(object):
     # how many are available until the i2c buffer is read, the parameter is a full
     # 20 element array.
     def get_all_tags(self, tag_array):
-        """
-            Gets all the tags in the buffer
+        """!
+        Gets all the tags in the buffer
 
-            :param tag_array: list of upto 20 RFID tag numbers
-            :rtype: void - does not return anything
+        @param tag_array: list of upto 20 RFID tag numbers
         """
         # Load up the global struct variables
         self._read_all_tags_times(self.MAX_TAG_STORAGE)
@@ -250,11 +241,10 @@ class QwiicRFID(object):
     # but actually the time between when the tag was scanned and when it was read from the I2C bus.
     def get_all_prec_times(self, time_array):
     
-        """
-            Gets all times in the buffer
+        """!
+        Gets all times in the buffer
 
-            :param time_array: list of upto 20 times the RFID tag was read from the I2C bus
-            :rtype: void - does not return anything
+        @param time_array: list of upto 20 times the RFID tag was read from the I2C bus
         """
         for i in range(0, self.MAX_TAG_STORAGE):
             time_array[i] = self.TIME_ARRAY[i]    # Load up passed array with time in seconds
@@ -267,11 +257,12 @@ class QwiicRFID(object):
     # This function changes the I2C address of the Qwiic RFID. The address
     # is written to the memory location in EEPROM that determines its address.
     def change_address(self, new_address):
-        """
-            Changes the I2C address of the Qwiic RFID reader
+        """!
+        Changes the I2C address of the Qwiic RFID reader
 
-            :param new_address: the new address to set the RFID reader to
-            :rtype: bool
+        @param new_address: the new address to set the RFID reader to
+        
+        @return **bool** False if the address is out of range
         """
         if new_address < 0x07 or new_address > 0x78:
             return False
@@ -289,10 +280,8 @@ class QwiicRFID(object):
     # representation which is then converted back to its original state. The tag
     # and the time is saves to the global variables.
     def _read_tag_time(self):
-        """
-            Handles the I2C transaction to get the RFID tag and time
-
-            :rtype: void - returns nothing
+        """!
+        Handles the I2C transaction to get the RFID tag and time
         """
         _temp_tag_str = ""  
         _temp_time = 0
@@ -329,11 +318,10 @@ class QwiicRFID(object):
     # converted from a string to it's direct numerical representation which is then 
     # converted back to its' original state.
     def _read_all_tags_times(self, _num_of_reads):
-        """
-            Populates an array of 20 RFID tags/times and drains available RFID buffer on the Reader.
+        """!
+        Populates an array of 20 RFID tags/times and drains available RFID buffer on the Reader.
 
-            :param _num_of_reads: int number of bytes to read
-            :rtype: void - returns nothing
+        @param _num_of_reads: int number of bytes to read
         """        
         for i in range(0, _num_of_reads):
             _temp_tag_str = ""
