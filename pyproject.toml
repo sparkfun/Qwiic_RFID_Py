@@ -4,7 +4,7 @@ requires = ["setuptools"]
 [project]
 name = "sparkfun_qwiic_rfid"
 version = "2.1.0"
-description = "This is a python package for SparkFun\"s Qwiic RFID Reader (https://www.sparkfun.com/products/15191). \
+description = "Sparkfun Electronics Qwiic RFID Package"
 readme = "DESCRIPTION.rst"
 
 authors = [{name="Sparkfun Electronics", email="info@sparkfun.com"}]
