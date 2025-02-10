@@ -1,9 +1,8 @@
 {
     "urls": [
-      ["qwiic_rfid.py", "github:sparkfun/Qwiic_RFID_Py/qwiic_rfid.py"]
-    ],
-    "deps": [
-      ["github:sparkfun/Qwiic_I2C_Py", "master"]
+      ["qwiic_rfid_py_examples/qwiic_rfid_ex1_getTag.py", "github:sparkfun/qwiic_rfid_py/examples/qwiic_rfid_ex1_getTag.py"],
+      ["qwiic_rfid_py_examples/qwiic_rfid_ex2_getAllTags.py", "github:sparkfun/qwiic_rfid_py/examples/qwiic_rfid_ex2_getAllTags.py"],
+      ["qwiic_rfid_py_examples/qwiic_rfid_ex3_changeI2Caddress.py", "github:sparkfun/qwiic_rfid_py/examples/qwiic_rfid_ex3_changeI2Caddress.py"]
     ],
     "version": "2.1.0"
 }
