@@ -62,7 +62,9 @@ _DEFAULT_NAME = "Qwiic RFID"
 # Some devices have multiple available addresses - this is a list of these addresses.
 # NOTE: The first address in this list is considered the default I2C address for the
 # device.
-_AVAILABLE_I2C_ADDRESS = [0x13, 0x14]
+_AVAILABLE_I2C_ADDRESS = [0x13, 0x14] # Default I2C Address
+
+_AVAILABLE_I2C_ADDRESS += range(0x07, 0x78) # Additional addresses
 
 # QUESTION: what do you do if the i2c address is software configurable?!
 
